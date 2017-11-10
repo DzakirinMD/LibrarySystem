@@ -1,0 +1,13 @@
+Use to specifiy which data we want.
+
+under query letak m* untuk search yg bermula dengan m 
+Criteria : m*
+
+under query letak *as* untuk search yg ada as
+Criteria : *as*
+
+under query letak >/< untuk search yg more than or less than
+Criteria : >=
+
+untuk nk keluarkan popup window letak Like[].
+eg : Like[Enter start date]

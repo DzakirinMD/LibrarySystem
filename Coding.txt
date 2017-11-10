@@ -1,0 +1,57 @@
+
+Private Sub btnInformation_Click()
+    MsgBox "The end date of returning book is 14 days starting from the start borrowing book date" & vbNewLine & "Fine : " & vbNewLine & "1 day late = RM 2 " & vbNewLine & "more than 7 day fixed fine of RM 30", , "General Information"
+End Sub
+
+Private Sub Return_Date_AfterUpdate()
+    If Return_Date < End_Date Then
+        [No of Late] = 0
+        Fine = 0#
+    Else
+        [No of Late] = Return_Date - End_Date
+        If [No of Late] < 7 Then 'Nested if'
+            Fine = 0#
+            For counter = 1 To [No of Late] 'For loop'
+                Fine = Fine + 2#
+            Next counter
+        Else
+            Fine = 30#
+        End If
+    End If
+End Sub
+
+Private Sub Start_date_AfterUpdate()
+    End_Date = Start_date + 14
+End Sub
+
+
+##########################################
+
+Option Compare Database
+
+Private Sub Command1_Click()
+    If IsNull(Me.txtLogin) Then
+    MsgBox "Please enter Login ID", vbInformation, "Login ID required"
+    Me.txtLogin.SetFocus
+       
+    ElseIf IsNull(Me.txtPassword) Then
+    MsgBox "Please enter Password", vbInformation, "Password required"
+    Me.txtPassword.SetFocus
+    
+    Else
+        'Process the job'
+        If (IsNull(DLookup("[UserLogin]", "tblUser", "[Userlogin] ='" & Me.txtLogin.Value & "'  And Password = '" & Me.txtPassword.Value & "'"))) Then
+        MsgBox "Incorrect Login ID or Password"
+        Else
+        DoCmd.OpenForm "frmMainMenu"
+        DoCmd.Close acForm, "Login Form", acSaveYes
+        'nama caption Form'
+        'https://msdn.microsoft.com/en-us/vba/access-vba/articles/docmd-close-method-access'
+        'https://www.addictivetips.com/microsoft-office/assign-password-data-type-to-a-specific-field-in-access-2010/'
+        End If
+        
+    End If
+End Sub
+
+
+
